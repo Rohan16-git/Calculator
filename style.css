@@ -5,23 +5,37 @@ body {
 }
 
 .calculator {
-    width: 300px;
+    width: 500px;
     border: 3px solid black;
-    padding: 20px;
+    padding: 5px 20px 20px 20px;
     margin: auto;
     border-radius: 20px;
     box-shadow: 10px 10px 10px blue
 }
 
-.calculator input{
-    width: 90%;
-    padding: 10px;
-    margin: 10px 0px;
-    font-size: 1rem;
+.display {
+    width:auto;
+    height: 50px;
+    background: white;
+    color: black;
+    font-size: 2.5em;
+    text-align: right;
+    padding: 20px 10px;
+    border-radius: 10px;
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.5);
+  margin: 20px;
+    overflow: hidden;
 }
 
-.calculator button{
-    width: 45%;
+.zero {
+    width: 66%;
+}
+
+.clear {
+    width: 43%; 
+}
+ button{
+    width: 20%;
     padding: 10px;
     margin: 5px;
     font-size: 1rem;
@@ -34,5 +48,5 @@ body {
 
 .calculator button:hover{
     background-color: #0056b3;
-    box-shadow:5px 5px 5px blue ;
+    /* box-shadow:5px 5px 5px blue ; */
 }

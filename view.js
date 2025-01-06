@@ -1,49 +1,62 @@
 $(document).ready(function () {
- function calculate(operation) {
-        const num1 = parseFloat($("#num1").val());
-        const num2 = parseFloat($("#num2").val());
-        let result = 0;
+    let currentInput = "";  // Tracks the current number being entered
+    let expression = "";    // Builds the complete mathematical expression
 
-        if (isNaN(num1) || isNaN(num2)) {
-            alert("Please enter a valid number!");
-            return
+    // Function to update the display
+    const updateDisplay = (value) => {
+        $("#result").text(value || "0");
+    };
+
+    // Handle numeric button clicks
+    $(".num").on("click", function () {
+        const value = $(this).text();
+        currentInput += value; // Append the number to the current input
+        updateDisplay(currentInput);
+    });
+
+    // Handle operator button clicks
+    $(".op").on("click", function () {
+        const operator = $(this).text();
+
+        if (currentInput) {
+            expression += currentInput + operator; // Append the current number and operator
+            currentInput = ""; // Reset the current input
+        } else if (expression && /[+\-*/]$/.test(expression)) {
+            // Replace the last operator if pressed consecutively
+            expression = expression.slice(0, -1) + operator;
         }
+        updateDisplay(operator); // Temporarily display the operator
+    });
 
-        switch (operation) {
-            case "add":
-                 result = num1 + num2;
-                break;
-
-            case "substract": 
-            result = num1 - num2;
-                break;
-
-            case "multiply": 
-            result = num1 * num2;
-                break;
-
-            case "divide":
-                if (num2 === 0) {
-                    alert("Cannot divide by 0!");
-                    return;
-                }
-                result = num1 / num2;
-                break
+    // Handle the dot button click
+    $(".dot").on("click", function () {
+        if (!currentInput.includes(".")) {
+            currentInput += "."; // Append a dot if none exists in the current input
+            updateDisplay(currentInput);
         }
+    });
 
-        $("#result").text(result)
+    // Handle the equal button click
+    $(".equal").on("click", function () {
+        if (currentInput) {
+            expression += currentInput; // Append the last entered number to the expression
+            try {
+                const result = eval(expression); // Evaluate the expression
+                updateDisplay(result); // Display the result
+                currentInput = result.toString(); // Set the result as the next input
+                expression = ""; // Clear the expression
+            } catch (error) {
+                updateDisplay("Error"); // Handle invalid expressions
+                currentInput = "";
+                expression = "";
+            }
+        }
+    });
 
-    }
-
-    $("#add").click(() => calculate("add"));
-    $("#substract").click(() => calculate("substract"));
-    $("#multiply").click(() => calculate("multiply"));
-    $("#divide").click(() => calculate("divide"));
-
-    $("#refresh").click(() => {
-        $("#num1").val("");
-        $("#num2").val("");
-        $("#result").text("0");
-        
-    })
-})
+    // Handle the clear button click
+    $(".clear").on("click", function () {
+        currentInput = ""; // Reset the current input
+        expression = "";   // Reset the expression
+        updateDisplay("0"); // Reset the display
+    });
+});
